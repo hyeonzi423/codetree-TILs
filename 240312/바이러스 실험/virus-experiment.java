@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class Main {
 	static int N, M, K;
 	static PriorityQueue<Integer>[][] virus, tmpVirus; 
-	static int[][] map;
+	static int[][] map, plus;
 	static int[] dx = {-1, -1, 0, 1, 1, 1, 0, -1};
 	static int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
 	
@@ -32,9 +32,16 @@ public class Main {
 		
 		map = new int[N][N]; // 양분 저장
 		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < N; j++) {
+				map[i][j] = 5;
+			}
+		}
+
+        plus = new int[N][N]; // 양분 저장
+		for(int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 			for(int j = 0; j < N; j++) {
-				map[i][j] =Integer.parseInt(st.nextToken());
+				plus[i][j] =Integer.parseInt(st.nextToken());
 			}
 		}
 		
@@ -116,7 +123,7 @@ public class Main {
 	static void addNutrient() {
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < N; j++) {
-				map[i][j] += 1;
+				map[i][j] += plus[i][j];
 			}
 		}
 	}
@@ -138,7 +145,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		init();
 		
-		for(int t = 0; t < K-1; t++) {
+		for(int t = 0; t < K; t++) {
 			eatNutrient();
 			spreadVirus();
 			addNutrient();
