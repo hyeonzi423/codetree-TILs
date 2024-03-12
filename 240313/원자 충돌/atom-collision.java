@@ -51,8 +51,8 @@ public class Main {
         }
         
         for(Atom now : atoms) {
-            int nx = (now.x + now.s*dx[now.d] + N)%N;
-            int ny = (now.y + now.s*dy[now.d] + N)%N;
+            int nx = (now.x + now.s*dx[now.d] + N*N)%N;
+            int ny = (now.y + now.s*dy[now.d] + N*N)%N;
             map[nx][ny].add(new Atom(nx, ny, now.m, now.s, now.d));
         }
         
