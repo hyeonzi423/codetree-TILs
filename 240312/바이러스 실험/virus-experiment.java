@@ -138,7 +138,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		init();
 		
-		for(int t = 0; t < K; t++) {
+		for(int t = 0; t < K-1; t++) {
 			eatNutrient();
 			spreadVirus();
 			addNutrient();
