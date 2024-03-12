@@ -68,7 +68,7 @@ public class Main {
 				if(virus[i][j].size() == 0) continue;
 				while(!virus[i][j].isEmpty()){
 					int now = virus[i][j].poll();
-					if(map[i][j] > now) {
+					if(map[i][j] >= now) {
 						map[i][j] -= now;
 						tmpVirus[i][j].add(now+1);
 					}
