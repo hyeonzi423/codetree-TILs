@@ -10,9 +10,11 @@ import java.util.StringTokenizer;
 
 public class Main {
     static int N, M;
-    static int[][] map, copyMap;
+    static int[][] map;
+    static int[][] tmpMap;
     static int[] dx = { -1, 0, 1, 0 };
     static int[] dy = { 0, 1, 0, -1 };
+    static boolean visited[][];
 
     static class Bomb implements Comparable<Bomb> {
         int cnt, redCnt, x, y;
@@ -47,6 +49,8 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         map = new int[N][N];
+        tmpMap = new int[N][N];
+        visited = new boolean[N][N];
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
@@ -57,7 +61,12 @@ public class Main {
 
     public static int select() {
         ArrayList<Bomb> bombs = new ArrayList<>();
-        boolean visited[][] = new boolean[N][N];
+        
+        for(int i = 0; i <N; i++) {
+        	for(int j = 0; j < N; j++) {
+        		visited[i][j] = false;
+        	}
+        }
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -138,7 +147,11 @@ public class Main {
     }
     
     public static void rotate() { 
-    	int[][] tmpMap = new int[N][N];
+    	for(int i = 0; i <N; i++) {
+        	for(int j = 0; j < N; j++) {
+        		tmpMap[i][j] = 0;
+        	}
+        }
     	
     	for(int i = 0; i < N; i++) {
     		for(int j = 0; j < N; j++) {
