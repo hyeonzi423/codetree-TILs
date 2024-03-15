@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -19,14 +19,12 @@ public class Main {
 
     static class Bomb implements Comparable<Bomb> {
         int cnt, redCnt, x, y;
-        ArrayList<Point> where;
 
-        public Bomb(int cnt, int redCnt, int x, int y, ArrayList<Point> where) {
+        public Bomb(int cnt, int redCnt, int x, int y) {
             this.cnt = cnt;
             this.redCnt = redCnt;
             this.x = x;
             this.y = y;
-            this.where = where;
         }
 
         @Override
@@ -107,7 +105,7 @@ public class Main {
                         }
                     }
                     if(cnt + redCnt >= 2) {
-                    	bombs.add(new Bomb(cnt, redCnt, x, y, where));
+                    	bombs.add(new Bomb(cnt, redCnt, x, y));
                     }
                 }
             }
@@ -118,9 +116,37 @@ public class Main {
 
         Bomb choice = bombs.poll();
         
-        for (Point p : choice.where) {
-            map[p.x][p.y] = -2;
+        for(int i = 0; i <N; i++) {
+        	for(int j = 0; j < N; j++) {
+        		visited[i][j] = false;
+        	}
         }
+        
+        Queue<Point> q = new LinkedList<>();
+        q.offer(new Point(choice.x, choice.y));
+        visited[choice.x][choice.y] = true;
+        int color = map[choice.x][choice.y];
+        
+        while (!q.isEmpty()) {
+            Point now = q.poll();
+            map[now.x][now.y] = -2;
+            //System.out.println(now.x + " " + now.y);
+            for (int k = 0; k < 4; k++) {
+                int nx = now.x + dx[k];
+                int ny = now.y + dy[k];
+                if (0 > nx || nx >= N || 0 > ny || ny >= N || visited[nx][ny])
+                    continue;
+                if (map[nx][ny] == color) {
+                    visited[nx][ny] = true;
+                    q.offer(new Point(nx, ny));
+                }
+                if(map[nx][ny] == 0) {
+                	visited[nx][ny] = true;
+                    q.offer(new Point(nx, ny));
+                }
+            }
+        }
+        
         return choice.cnt * choice.cnt;
     }
 
@@ -165,16 +191,25 @@ public class Main {
     		}
     	}
     }
+    
+    public static void print(int[][] tmp) {
+        for (int i = 0; i < N; i++) {
+            System.out.println(Arrays.toString(tmp[i]));
+        }
+        System.out.println();
+    }
 
     public static void main(String[] args) throws IOException {
         init();
         int ans = 0;
         while (true) {
 	        int ret = select();
+	        //print(map);
 	        if(ret == 0) {
 	        	break;
 	        }
 	        ans += ret;
+	        
 	        gravity();
 	        rotate();
 	        gravity();
