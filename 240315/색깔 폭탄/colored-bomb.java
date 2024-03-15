@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -60,7 +61,7 @@ public class Main {
     }
 
     public static int select() {
-        ArrayList<Bomb> bombs = new ArrayList<>();
+        PriorityQueue<Bomb> bombs = new PriorityQueue<>();
         
         for(int i = 0; i <N; i++) {
         	for(int j = 0; j < N; j++) {
@@ -115,8 +116,7 @@ public class Main {
             return 0;
         }
 
-        Collections.sort(bombs);
-        Bomb choice = bombs.get(0);
+        Bomb choice = bombs.poll();
         
         for (Point p : choice.where) {
             map[p.x][p.y] = -2;
