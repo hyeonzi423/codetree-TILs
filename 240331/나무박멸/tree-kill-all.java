@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -35,17 +34,9 @@ public class Main {
 		ans = 0;
 		for(int i = 0; i < M; i++) {
 			grow();
-			//System.out.println("grow");
-			//print();
 			spread();
-			//System.out.println("spread");
-			//print();
 			choice();
-			//System.out.println("choice");
-			//print1();
 			remove();
-			//print();
-			//System.out.println(ans + "!!!!!!!!!!!!!!");
 		}
 		System.out.println(ans);
 	}
@@ -152,12 +143,8 @@ public class Main {
 			}
 		}
 		if(maxX == -1 && maxY == -1) return;
+		
 		ans += max;
-		
-//		System.out.println();
-//        System.out.println(maxX + " " + maxY);
-//        System.out.println();
-		
 		tree[maxX][maxY] = -(C+1);
 		for (int a = 0; a < 4; a++) {
 			for (int b = 1; b <= K; b++) {
@@ -189,19 +176,6 @@ public class Main {
 					tree[i][j] += 1;
 				}
 			}
-		}
-	}
-	
-	public static void print() {
-		System.out.println("tree");
-		for (int i = 0; i < N; i++) {
-			System.out.println(Arrays.toString(tree[i]));
-		}
-	}
-	public static void print1() {
-		System.out.println("tmp");
-		for (int i = 0; i < N; i++) {
-			System.out.println(Arrays.toString(tmpTree[i]));
 		}
 	}
 
