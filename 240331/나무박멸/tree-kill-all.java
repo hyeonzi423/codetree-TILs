@@ -8,24 +8,6 @@ public class Main {
 	static int N, M, K, C, ans;
 	static int[][] tree, tmpTree, herbicide;
 	static int dx[] = { -1, 0, 1, 0 };
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
-
-public class Main {
-	static int N, M, K, C, ans;
-	static int[][] tree, tmpTree, herbicide;
-	static int dx[] = { -1, 0, 1, 0 };
-
-코드를 실행시키는 중입니다.
-
-public
-
-정상적으로 제출되었습니다.
-
-
 	static int dy[] = { 0, 1, 0, -1 };
 	static int hdx[] = { -1, -1, 1, 1 };
 	static int hdy[] = { -1, 1, -1, 1 };
