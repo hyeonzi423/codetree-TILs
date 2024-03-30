@@ -147,6 +147,7 @@ public class Main {
 				}
 			}
 		}
+		if(maxX == -1 && maxY == -1) return;
 		ans += max;
 		tree[maxX][maxY] = -(C+1);
 		for (int a = 0; a < 4; a++) {
