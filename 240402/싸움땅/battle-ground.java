@@ -78,6 +78,7 @@ public class Main {
 //			for(Player pl : players) {
 //				System.out.println(pl);
 //			}
+//			System.out.println();
 		}
 		
 		for(Integer s : score) {
@@ -97,6 +98,9 @@ public class Main {
 			}
 			if(map[nx][ny] == null) { // 이동한 공간에 플레이어가 없다면 총 확인하고 줍기
 				int gMax = choiceGun(nx, ny, p.g);
+				if(gMax != p.g) {
+					gun[nx][ny].add(p.g);
+				}
 				players[i] = new Player(nx, ny, p.d, p.s, gMax, p.num);
 				map[p.x][p.y] = null;
 				map[nx][ny] = players[i];
@@ -104,6 +108,8 @@ public class Main {
 			}else { // 플레이어가 있다면 싸움
 				Player player1 = map[nx][ny]; // 먼저 온 플레이어
 				Player player2 = new Player(nx, ny, p.d, p.s, p.g, p.num);
+//				System.out.println(player1);
+//				System.out.println(player2);
 				map[p.x][p.y] = null;
 				
 				int s1 = player1.s + player1.g;
@@ -112,6 +118,10 @@ public class Main {
 				if(s1 < s2 || ((s1 == s2)&&(player1.s < player2.s))) {
 					score[player2.num] += s2 - s1; // 포인트 획득
 					gun[nx][ny].add(player1.g); // 진 플레이어는 총 내려 놓기
+//					for(Integer gx : gun[nx][ny]) {
+//						System.out.print("gx" + gx + " ");
+//						System.out.println();
+//					}
 					player1.g = 0;
 					int gMax = choiceGun(nx, ny, player2.g); // 이긴 플레이어가 총 새로 고르기
 					if(gMax != player2.g) { // 새로 고른 총이 원래 총과 다르다면 원래 총 내려 놓기
@@ -133,6 +143,10 @@ public class Main {
 				}else if(s1 > s2 || ((s1 == s2)&&(player1.s > player2.s))) {
 					score[player1.num] += s1 - s2; // 포인트 획득
 					gun[nx][ny].add(player2.g); // 진 플레이어는 총 내려 놓기
+//					for(Integer gx : gun[nx][ny]) {
+//						System.out.print("gx " + gx + " ");
+//						System.out.println();
+//					}
 					player2.g = 0;
 					int gMax = choiceGun(nx, ny, player1.g); // 이긴 플레이어가 총 새로 고르기
 					if(gMax != player1.g) { // 새로 고른 총이 원래 총과 다르다면 원래 총 내려 놓기
@@ -178,15 +192,23 @@ public class Main {
 		}
 		
 		if(flag == true) {
-			p = new Player(nx, ny, p.d, p.s, p.g, p.num);
+			p = new Player(nx, ny, p.d, p.s, 0, p.num);
 		}
 		return p;
 	}
 	
 	private static int choiceGun(int x, int y, int pg) {
 		int gMax = pg;
-		for(Integer g : gun[x][y]) {
-			gMax = Math.max(gMax, g);
+		int idx = -1;
+		for(int i = 0; i < gun[x][y].size(); i++) {
+			int now = gun[x][y].get(i);
+			if(now > gMax) {
+				gMax = now;
+				idx = i;
+			}
+		}
+		if(idx != -1) {
+			gun[x][y].remove(idx);
 		}
 		return gMax;
 	}
