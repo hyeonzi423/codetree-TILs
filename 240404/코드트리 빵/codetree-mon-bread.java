@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int N, M, time, arrive; // 격자의 크기, 사람의 수
+	static int N, M, time, arrive, ret; // 격자의 크기, 사람의 수
 	static int[][] map;
 	static boolean[][] checkMap; // 해당 칸으로 이동할 수 있는지 없는지 확인하는 배열
 	static Person[] people; // 현재 사람의 위치
@@ -124,6 +124,9 @@ public class Main {
 		//System.out.println();
 		while(!q.isEmpty()) {
 			Node now = q.poll();
+//			if(now.dis > ret) {
+//				break;
+//			}
 			//System.out.println(now);
 			visited[now.x][now.y] = true;
 			if(now.x == ex && now.y == ey) {
@@ -135,6 +138,7 @@ public class Main {
 				int nx = now.x + dx[i];
 				int ny = now.y + dy[i];
 				if(inRange(nx, ny) && !visited[nx][ny] && checkMap[nx][ny]) {
+					if(now.dis + 1 > ret) continue;
 					q.add(new Node(nx, ny, now.dis + 1));
 				}
 			}
@@ -152,11 +156,16 @@ public class Main {
 			Person now = people[i];
 			if(now == null || now.state == 2) continue; // 아직 격자에 올라오지 못했거나 도착했다면
 			int minDis = Integer.MAX_VALUE, d = -1;
+			ret = N*N;
 			for(int k = 0; k < 4; k++) {
 				int nx = now.x + dx[k];
 				int ny = now.y + dy[k];
 				if(!inRange(nx, ny) || !checkMap[nx][ny]) continue;
-				int ret = bfs(new Point(nx, ny), i);
+				int prevRet = ret;
+				ret = bfs(new Point(nx, ny), i);
+				if(ret == -1) {
+					ret = prevRet;
+				}
 				//System.out.println(nx + " " + ny + " "+ret);
 				if(ret != -1 && ret < minDis) {
 					minDis = ret;
@@ -185,13 +194,19 @@ public class Main {
 
 	public static void choice() { // 3. 
 		for(int i = 0; i < M; i++) {
+			ret = N*N;
 			if(time >= i+1 && people[i] == null) { // 시간 조건에 맞고 아직 격자 위로 올라오지 않았다면
 				//System.out.println("start");
 				int minDis = Integer.MAX_VALUE, minX = N, minY = N;
+				
 				for(Point d : baseCamp) {
 					if (!checkMap[d.x][d.y]) continue; // 이미 선택된 베이스캠프라면 넘어감
-					int ret = bfs(d, i); // 베이스 캠프마다 목적지까지의 이동 거리 구한 뒤 거리 행 열이 작은 베이스 캠프 값 저장 
-//					System.out.println(d + " " +i + " " +ret);
+					int prevRet = ret;
+					ret = bfs(d, i); // 베이스 캠프마다 목적지까지의 이동 거리 구한 뒤 거리 행 열이 작은 베이스 캠프 값 저장 
+					if(ret == -1) {
+						ret = prevRet;
+					}
+					//System.out.println(d + " " +i + " " +ret);
 //					System.out.println();
 					if(ret != -1 && ret < minDis || (ret == minDis && d.x <minX) || (ret == minDis && d.x == minX &&  d.y < minY)) {
 						minDis = ret;
