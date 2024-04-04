@@ -114,6 +114,7 @@ public class Main {
 		Queue<Node> q = new LinkedList<>();
 		q.add(new Node(p.x, p.y, 0));
 		boolean visited[][] = new boolean[N][N];
+		visited[p.x][p.y] = true;
 		int ex = destination[idx].x, ey = destination[idx].y;
 		int dis = 0;
 		boolean flag = false;
@@ -124,11 +125,10 @@ public class Main {
 		//System.out.println();
 		while(!q.isEmpty()) {
 			Node now = q.poll();
-//			if(now.dis > ret) {
-//				break;
-//			}
+			if(now.dis > ret) {
+				break;
+			}
 			//System.out.println(now);
-			visited[now.x][now.y] = true;
 			if(now.x == ex && now.y == ey) {
 				flag = true;
 				dis = now.dis;
@@ -140,6 +140,7 @@ public class Main {
 				if(inRange(nx, ny) && !visited[nx][ny] && checkMap[nx][ny]) {
 					if(now.dis + 1 > ret) continue;
 					q.add(new Node(nx, ny, now.dis + 1));
+					visited[nx][ny] = true;
 				}
 			}
 		}
