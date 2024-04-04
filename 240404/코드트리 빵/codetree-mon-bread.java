@@ -94,7 +94,6 @@ public class Main {
 			time++;
 			move();
 			if(arrive == M) break;
-			if(time > 9) break;
 			//System.out.println();
 			if(time < M + 1) {
 				choice();
