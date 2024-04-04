@@ -117,6 +117,8 @@ public class Main {
 		boolean visited[][] = new boolean[N][N];
 		int ex = destination[idx].x, ey = destination[idx].y;
 		int dis = 0;
+		boolean flag = false;
+		
 //		for(int i = 0; i < N; i++) {
 //			System.out.println(Arrays.toString(checkMap[i]));
 //		}
@@ -126,6 +128,7 @@ public class Main {
 			//System.out.println(now);
 			visited[now.x][now.y] = true;
 			if(now.x == ex && now.y == ey) {
+				flag = true;
 				dis = now.dis;
 				break;
 			}
@@ -137,7 +140,7 @@ public class Main {
 				}
 			}
 		}
-		return dis;
+		return flag ? dis : -1;
 	}
 	
 	public static boolean inRange(int x, int y) {
@@ -156,7 +159,7 @@ public class Main {
 				if(!inRange(nx, ny) || !checkMap[nx][ny]) continue;
 				int ret = bfs(new Point(nx, ny), i);
 				//System.out.println(nx + " " + ny + " "+ret);
-				if(ret < minDis) {
+				if(ret != -1 && ret < minDis) {
 					minDis = ret;
 					d = k;
 				}
@@ -191,7 +194,7 @@ public class Main {
 					int ret = bfs(d, i); // 베이스 캠프마다 목적지까지의 이동 거리 구한 뒤 거리 행 열이 작은 베이스 캠프 값 저장 
 //					System.out.println(d + " " +i + " " +ret);
 //					System.out.println();
-					if(ret < minDis || (ret == minDis && d.x <minX) || (ret == minDis && d.x == minX &&  d.y < minY)) {
+					if(ret != -1 && ret < minDis || (ret == minDis && d.x <minX) || (ret == minDis && d.x == minX &&  d.y < minY)) {
 						minDis = ret;
 						minX = d.x;
 						minY = d.y;
