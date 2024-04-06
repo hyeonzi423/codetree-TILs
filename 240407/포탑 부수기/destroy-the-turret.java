@@ -71,7 +71,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
         
-        map = new Turret[N][N];
+        map = new Turret[N][M];
         for(int i = 0; i <N; i++) {
             st = new StringTokenizer(br.readLine());
             for(int j = 0; j < M; j++) {
@@ -106,6 +106,9 @@ public class Main {
                 	remain.add(map[i][j]);
                 }
             }
+        }
+        if(remain.size() <= 1) {
+        	return;
         }
         Collections.sort(remain);
 //        for(Turret t : remain) {
