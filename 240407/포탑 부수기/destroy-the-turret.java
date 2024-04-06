@@ -39,12 +39,6 @@ public class Main {
                 return o.y - this.y;
             }
         }
-
-        @Override
-        public String toString() {
-            return "Turret [x=" + x + ", y=" + y + ", p=" + p + ", r=" + r + "]";
-        }
-        
     }
     
     public static class Point{
@@ -55,12 +49,6 @@ public class Main {
 			this.y = y;
 			this.t = t;
 		}
-
-		@Override
-		public String toString() {
-			return "Point [x=" + x + ", y=" + y + ", t=" + t + "]";
-		}
-    	
     }
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -83,12 +71,6 @@ public class Main {
         for(turn = 1; turn <= K; turn++) {
         	choice();
         	maintain();
-        	
-//        	for(int i = 0; i < N; i++) {
-//        		for(int j = 0; j < M; j++) {
-//        			System.out.println(i + " " + j + " " + map[i][j]);
-//        		}
-//        	}
         }
         int ans = 0;
         for(int i = 0; i < N; i++) {
@@ -111,16 +93,12 @@ public class Main {
         	return;
         }
         Collections.sort(remain);
-//        for(Turret t : remain) {
-//        	System.out.println("remain " + t);
-//        }
+
         attacker = remain.get(0);
         victim = remain.get(remain.size()-1);
         map[attacker.x][attacker.y].r = turn;
         
         map[attacker.x][attacker.y].p += N + M;
-//        System.out.println(attacker);
-//        System.out.println(victim);
         
         attackPoint = new int[N][M];
         attackPoint[attacker.x][attacker.y] = 1;
@@ -137,7 +115,6 @@ public class Main {
     	
     	while(!q.isEmpty()) {
     		Point now = q.poll();
-    		//System.out.println("bfs " + now);
     		if(now.x == victim.x && now.y == victim.y) {
     			flag = true;
     			break;
@@ -157,17 +134,11 @@ public class Main {
     			}
     		}
     	}
-//    	for(int i = 0; i < N; i++) {
-//    		for(int j = 0; j < M; j++) {
-//    			System.out.println(i + " " + j + " " + track[i][j]);
-//    		}
-//    	}
+
     	if(!flag) {
-    		//System.out.println("bomb");
     		bomb();//포탄 공격 함수 받아오기
     	}
     	else {
-    		//System.out.println("laser");
     		int attackValue = map[attacker.x][attacker.y].p;
     		map[victim.x][victim.y].p -= attackValue;
     		attackPoint[victim.x][victim.y] = 1;
@@ -185,12 +156,6 @@ public class Main {
     			x = nx;
     			y = ny;
     		}
-    		
-//    		for(int i = 0; i < N; i++) {
-//        		for(int j = 0; j < M; j++) {
-//        			System.out.println(i + " " + j + " " + map[i][j]);
-//        		}
-//        	}
     	}
     }
     
