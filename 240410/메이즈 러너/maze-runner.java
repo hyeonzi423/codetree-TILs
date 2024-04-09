@@ -51,7 +51,7 @@ public class Main {
         	
         	boolean flag = true;
         	for(int p = 1; p <= M; p++) {
-        		if(people[p].x != exit.x || people[p].y == exit.y) {
+        		if(people[p].x != exit.x || people[p].y != exit.y) {
         			flag = false;
         		}
         	}
