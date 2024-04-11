@@ -71,7 +71,7 @@ public class Main {
 			moveMonster();
 //			System.out.println("몬스터 이동 후");
 //			print();
-			eatMonster = 0;
+			eatMonster = -1;
 			track = new int[3];
 			perm(0);
 //			System.out.println("팩맨 이동 경로");
@@ -143,7 +143,7 @@ public class Main {
 					
 					nx = i + mdx[d];
 					ny = j + mdy[d];
-					//System.out.println("here " + nx + " " + ny);
+					if(!inRange(nx, ny)) continue;
 					moveMap[nx][ny].add(d);
 				}
 			}
