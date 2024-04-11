@@ -224,7 +224,7 @@ public class Main {
 			pacman.x = nx;
 			pacman.y = ny;
 			for(int j = 0; j < map[pacman.x][pacman.y].size(); j++) {
-				deadMap[pacman.x][pacman.y].add(2);
+				deadMap[pacman.x][pacman.y].add(3);
 			}
 			//System.out.println(pacman);
 			map[pacman.x][pacman.y].clear();
