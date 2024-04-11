@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -143,7 +142,10 @@ public class Main {
 					
 					nx = i + mdx[d];
 					ny = j + mdy[d];
-					if(!inRange(nx, ny)) continue;
+					if(!inRange(nx, ny)) {
+						moveMap[i][j].add(d);
+						continue;
+					}
 					moveMap[nx][ny].add(d);
 				}
 			}
@@ -157,7 +159,7 @@ public class Main {
 		}
 	}
 	
-	public static int movePacman() {
+	public static int movePacman() { // 팩맨 이동시 먹을 수 있는 몬스터의 수 측정
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 4; j++) {
 				moveMap[i][j].clear();
@@ -181,7 +183,7 @@ public class Main {
 	}
 	
 	
-	public static void perm(int cnt) {
+	public static void perm(int cnt) { // 중복 순열 이용
 		if (cnt == 3) {
 			int ret = movePacman();
 //			System.out.print(ret + " ");
@@ -217,7 +219,7 @@ public class Main {
 		}
 	}
 	
-	public static void realMovePM() {
+	public static void realMovePM() { // 최적의 경로 선택 후 진짜로 이동
 		for(int i = 0; i < 3; i++) {
 			int nx = pacman.x + dx[track[i]];
 			int ny = pacman.y + dy[track[i]];
@@ -231,7 +233,7 @@ public class Main {
 		}
 	}
 	
-	public static void removeDead() {
+	public static void removeDead() { // 죽은 몬스터 시체 처리
 		for(int i = 0; i < 4; i++) {
 			for(int j = 0; j < 4; j++) {
 				if(deadMap[i][j].size() == 0) continue;
@@ -247,7 +249,7 @@ public class Main {
 		}
 	}
 	
-	public static void bornMonster() {
+	public static void bornMonster() { // 새로운 알 부화시키기
 		for(Egg e : eggs) {
 			map[e.x][e.y].add(e.d);
 		}
