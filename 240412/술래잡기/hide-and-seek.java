@@ -70,12 +70,22 @@ public class Main {
 		
 		isCatch = new boolean[M];
 		catcher = new Player(N/2, N/2, 0);
-		catcherTrack();
+		track = new ArrayList<>();
+		for(int i = 0; i < K/(N*N) + 1; i++) {
+			catcherTrack();
+			catcher = new Player(N/2, N/2, 0);
+			track.add(catcher);
+		}
+		
+//		for(Player p : track) {
+//			System.out.println(p);
+//		}
+		
 		
 		int ans = 0;
 		for(turn = 1; turn <= K; turn++) {
 			moveRunner();
-			catcher = track.get(turn);
+			catcher = track.get(turn-1);
 			//System.out.println("catch " + catcher);
 			int tmp = catchRunner();
 			ans += tmp*turn;
@@ -134,10 +144,8 @@ public class Main {
 	}
 
 	public static void catcherTrack() {
-		track = new ArrayList<>();
 		int cnt = 0;
 		boolean reverse = false, flag = false;
-		track.add(catcher);
 		int x = catcher.x;
 		int y = catcher.y;
 		int d = catcher.d;
@@ -147,16 +155,16 @@ public class Main {
 			for(int i = 0; i < rep; i++) {
 				int nx = x + dx[d]; 
 				int ny = y + dy[d]; 
+				if(nx == 0 && ny == 0) {
+					reverse = true;
+					cnt = K;
+					break;
+				}
 				if(i == rep - 1) {
 					d = (d+1)%4;
 					track.add(new Player(nx, ny, d));
 				}else {
 					track.add(new Player(nx, ny, d));
-				}
-				if(nx == 0 && ny == 0) {
-					reverse = true;
-					cnt = K;
-					break;
 				}
 				x = nx;
 				y = ny;
@@ -166,19 +174,23 @@ public class Main {
 		if(!reverse) {
 			return;
 		}
+		
 		x = 0;
 		y = 0;
 		d = 2;
+		track.add(new Player(x, y, d));
 		boolean[][] visited = new boolean[N][N];
 		visited[0][0] = true;
 		while(true) {
-			if(x == catcher.x && y == catcher.y) break;
 			int nx = x + dx[d];
 			int ny = y + dy[d];
 			if(!inRange(nx, ny) || visited[nx][ny]) {
+				int s = track.size();
 				d = (d-1+4)%4;
+				track.get(s-1).d = d;
 				continue;
 			}
+			if(nx == catcher.x && ny == catcher.y) break;
 			track.add(new Player(nx, ny, d));
 			visited[nx][ny] = true;
 			x = nx;
@@ -198,7 +210,7 @@ public class Main {
 //		}
 		
 		int tmpCnt = 0;
-		catcher = track.get(turn);
+		catcher = track.get(turn-1);
 		int x = catcher.x;
 		int y = catcher.y;
 		if(!tree[x][y]) {
