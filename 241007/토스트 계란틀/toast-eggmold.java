@@ -47,7 +47,7 @@ public class Main {
                      int nx = i + dx[k];
                      int ny = j + dy[k];
                      if (0 <= nx && nx < N && 0 <= ny && ny < N && !visited[nx][ny]) {
-                        if (L <= Math.abs(map[i][j] - map[nx][ny]) && Math.abs(map[i][j] - map[nx][ny]) < R) {
+                        if (L <= Math.abs(map[i][j] - map[nx][ny]) && Math.abs(map[i][j] - map[nx][ny]) <= R) {
                            Queue<int[]> q = new LinkedList<>();
                            flag = true;
                            q.add(new int[] { i, j });
