@@ -117,6 +117,8 @@ public class Main {
 			}
 		}
 		ans += max;
+
+		if(mx == -1) return;
 		med[mx][my] = C + 1;
 		map[mx][my] = 0;
 		for(int k = 0; k < 4; k++) {
