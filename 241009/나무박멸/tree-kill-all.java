@@ -66,7 +66,7 @@ public class Main {
 		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (map[i][j] == 0) continue;
+				if (map[i][j] < 0) continue;
 				int cnt = 0;
 				ArrayList<Integer> dir = new ArrayList<>();
 				for(int k = 0; k < 4; k++) {
