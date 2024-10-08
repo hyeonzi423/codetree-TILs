@@ -58,15 +58,9 @@ public class Main {
 	}
 	
 	public static void expand() {
-		for(int i = 0; i < N; i++) {
-			for(int j =0; j < N; j++) {
-				tmpMap[i][j] = 0;
-			}
-		}
-		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
-				if (map[i][j] < 0) continue;
+				if (map[i][j] <= 0) continue;
 				int cnt = 0;
 				ArrayList<Integer> dir = new ArrayList<>();
 				for(int k = 0; k < 4; k++) {
@@ -87,54 +81,58 @@ public class Main {
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < N; j++) {
 				map[i][j] += tmpMap[i][j];
+				tmpMap[i][j] = 0;
 			}
 		}
 	}
 	
 	public static void candidate() {
-		int max = 0, mx = -1, my = -1;
-		
-		for(int i = 0; i < N; i++) {
-			for(int j = 0; j < N; j++) {
-				if(map[i][j] <= 0) continue;
-				int tmp = map[i][j];
-				for(int k = 0; k < 4; k++) {
-					for(int d = 1; d <= K; d++) {
-						int nx = i + d*sdx[k];
-						int ny = j + d*sdy[k];
-						if(inRange(nx, ny) && map[nx][ny] < 0) {
-							break;
-						}if(inRange(nx, ny) && map[nx][ny] > 0) {
-							tmp += map[nx][ny];
-						}
-					}
-				}
-				if(tmp > max) {
-					mx = i;
-					my = j;
-					max = tmp;
-				}
-			}
-		}
-		ans += max;
+	    int max = 0, mx = -1, my = -1;
 
-		if(mx == -1) return;
-		med[mx][my] = C + 1;
-		map[mx][my] = 0;
-		for(int k = 0; k < 4; k++) {
-			for(int d = 1; d <= K; d++) {
-				int nx = mx + d*sdx[k];
-				int ny = my + d*sdy[k];
-				if(inRange(nx, ny) && map[nx][ny] <= 0) {
-					med[nx][ny] = C + 1;
-					break;
-				}if(inRange(nx, ny) && map[nx][ny] > 0) {
-					med[nx][ny] = C + 1;
-					map[nx][ny] = 0;
-				}
-			}
-		}
+	    for(int i = 0; i < N; i++) {
+	        for(int j = 0; j < N; j++) {
+	            if(map[i][j] <= 0) continue;
+	            int tmp = map[i][j];
+	            for(int k = 0; k < 4; k++) {
+	                for(int d = 1; d <= K; d++) {
+	                    int nx = i + d*sdx[k];
+	                    int ny = j + d*sdy[k];
+	                    if(!inRange(nx, ny) || map[nx][ny] <= 0) {
+	                        break;
+	                    } 
+	                    tmp += map[nx][ny];
+	                }
+	            }
+	            if(tmp > max) {
+	                mx = i;
+	                my = j;
+	                max = tmp;
+	            }
+	        }
+	    }
+	    ans += max;
+
+	    med[mx][my] = C + 1;
+	    map[mx][my] = 0;
+	    for(int k = 0; k < 4; k++) {
+	        for(int d = 1; d <= K; d++) {
+	            int nx = mx + d*sdx[k];
+	            int ny = my + d*sdy[k];
+	            if(!inRange(nx, ny) || map[nx][ny] == -1) {
+	                break;
+	            } 
+	            if(map[nx][ny] == 0) {
+	            	med[nx][ny] = C + 1;
+	            	break;
+	            }
+	            if(map[nx][ny] > 0) {
+	                med[nx][ny] = C + 1;
+	                map[nx][ny] = 0;
+	            }
+	        }
+	    }
 	}
+
 	
 	public static void remove() {
 		for(int i = 0; i < N; i++) {
