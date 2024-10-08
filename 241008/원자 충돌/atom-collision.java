@@ -94,7 +94,7 @@ public class Main {
 					}
 					tmp[i][j].clear();
 					int start = same ? 0 : 1;
-					if (wHap / cnt == 0)
+					if (wHap < 5)
 						continue;
 					for (int k = 0; k < 4; k++) {
 						tmp[i][j].add(new Atom(wHap / 5, sHap / cnt, start + 2 * k));
