@@ -68,8 +68,8 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < N; j++) {
 				for (Atom a : map[i][j]) {
-					int nx = (i + a.s * dx[a.d] + N) % N;
-					int ny = (j + a.s * dy[a.d] + N) % N;
+					int nx = (i + a.s * dx[a.d] + N * N) % N;
+					int ny = (j + a.s * dy[a.d] + N * N) % N;
 					tmp[nx][ny].add(a);
 				}
 			}
@@ -109,6 +109,7 @@ public class Main {
 				for (Atom a : tmp[i][j]) {
 					map[i][j].add(a);
 				}
+				tmp[i][j].clear();
 			}
 		}
 	}
