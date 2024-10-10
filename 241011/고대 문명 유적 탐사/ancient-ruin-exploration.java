@@ -47,13 +47,13 @@ public class Main {
 
 		@Override
 		public int compareTo(Node n) {
-
-			if (this.count == n.count) {
-				if (this.rotate == n.rotate) {
-					if (this.x == n.x) {
-						return this.y - n.y;
+			
+			if(this.count == n.count) {
+				if(this.rotate == n.rotate) {
+					if(this.y == n.y) {
+						return this.x - n.x;
 					}
-					return this.x - n.x;
+					return this.y - n.y;
 				}
 				return this.rotate - n.rotate;
 			}
