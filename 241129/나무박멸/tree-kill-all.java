@@ -34,6 +34,7 @@ public class Main {
 			grow();
 			spread();
 			Point c = choice();
+			if(c.x == -1 && c.y == -1) break;
 			kill(c);
 			time();
 		}
