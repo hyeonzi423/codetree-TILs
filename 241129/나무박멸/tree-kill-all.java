@@ -105,9 +105,7 @@ public class Main {
 						for (int s = 1; s <= K; s++) {
 							int nx = i + s * hx[k];
 							int ny = j + s * hy[k];
-							if (!isRange(nx, ny))
-								break;
-							if (tree[nx][ny] == 0 || tree[nx][ny] == -1)
+							if (!isRange(nx, ny) || tree[nx][ny] <= 0)
 								break;
 							tmp += tree[nx][ny];
 						}
@@ -134,7 +132,6 @@ public class Main {
 				if (!isRange(nx, ny))
 					break;
 				if (tree[nx][ny] == 0 || tree[nx][ny] == -1) {
-					tree[nx][ny] = 0;
 					herbicide[nx][ny] = C+1;
 					break;
 				}
