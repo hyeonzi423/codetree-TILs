@@ -98,19 +98,19 @@ public class Main {
 				if (p1Score > p2Score || ((p1Score == p2Score) && (p1.s > p2.s))) {
 					gunMap[nx][ny].add(p2.g);
 					for (int i = 0; i < 4; i++) {
-						nd = (nd + i) % 4;
-						nx += dx[nd];
-						ny += dy[nd];
+						nd = (p2.d + i) % 4;
+						nx = p2.x + dx[nd];
+						ny = p2.y + dy[nd];
 						if (isRange(nx, ny) && peopleMap[nx][ny] == 0) {
 							break;
 						}
 					}
-					peopleMap[nx][ny] = p.idx;
-					people[p.idx] = new Person(p.idx, nx, ny, nd, p.s,
+					peopleMap[nx][ny] = p2.idx;
+					people[p2.idx] = new Person(p2.idx, nx, ny, nd, p.s,
 							gunMap[nx][ny].size() != 0 ? gunMap[nx][ny].poll() : 0);
 
-					gunMap[nx][ny].add(p1.g);
-					people[p1.idx].g = gunMap[nx][ny].poll();
+					gunMap[p1.x][p1.y].add(p1.g);
+					people[p1.idx].g = gunMap[p1.x][p1.y].poll();
 					point[p1.idx] += p1Score - p2Score;
 
 				}
@@ -118,11 +118,11 @@ public class Main {
 				else {
 					gunMap[nx][ny].add(p1.g);
 
-					int px = nx, py = ny, pd = p1.d;
+					int px = p1.x, py = p1.y, pd = p1.d;
 					for (int i = 0; i < 4; i++) {
 						pd = (p1.d + i) % 4;
-						px = nx + dx[pd];
-						py = ny + dy[pd];
+						px = p1.x + dx[pd];
+						py = p2.y + dy[pd];
 						if (isRange(px, py) && peopleMap[px][py] == 0) {
 							break;
 						}
@@ -141,16 +141,6 @@ public class Main {
 
 			}
 		}
-	}
-
-	public static void print() {
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				System.out.print(peopleMap[i][j] + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
 	}
 
 	public static boolean isRange(int x, int y) {
