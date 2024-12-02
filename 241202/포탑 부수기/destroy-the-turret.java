@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int N, M, K, turn;
+	static boolean end;
 	static int[] dx = { 0, 1, -1, 0 };
 	static int[] dy = { 1, 0, 0, -1 };
 	static int[] hx = { -1, -1, 0, 1, 1, 1, 0, -1 };
@@ -64,8 +65,10 @@ public class Main {
 			}
 		}
 
+		end = false;
 		for (turn = 0; turn < K; turn++) {
 			choice();
+			if(end) break;
 			laser();
 			build();
 		}
@@ -81,12 +84,16 @@ public class Main {
 				}
 			}
 		}
+		if (remain.size() <= 1) {
+			end = true;
+			return;
+		}
 		attackRecord = new int[N][M];
 		Collections.sort(remain);
 		Attacker = remain.get(0);
 		Victim = remain.get(remain.size() - 1);
 		map[Attacker.x][Attacker.y] += N + M;
-		record[Attacker.x][Attacker.y] = turn+1;
+		record[Attacker.x][Attacker.y] = turn + 1;
 	}
 
 	public static void laser() {
@@ -99,11 +106,13 @@ public class Main {
 			Point now = q.poll();
 			if (now.x == Victim.x && now.y == Victim.y) {
 				flag = true;
+				break;
 			}
 			for (int i = 0; i < 4; i++) {
 				int nx = (now.x + dx[i] + N) % N;
 				int ny = (now.y + dy[i] + M) % M;
-				if(map[nx][ny] <= 0) continue;
+				if (map[nx][ny] <= 0)
+					continue;
 				if (track[nx][ny] == null || (track[nx][ny] != null && track[nx][ny].t > now.t + 1)) {
 					track[nx][ny] = new Point(now.x, now.y, now.t + 1);
 					q.add(new Point(nx, ny, now.t + 1));
@@ -137,8 +146,10 @@ public class Main {
 		for (int i = 0; i < 8; i++) {
 			int nx = (Victim.x + hx[i] + N) % N;
 			int ny = (Victim.y + hy[i] + M) % M;
-			if(nx == Attacker.x && ny == Attacker.y) continue;
-			if(nx == Victim.x && ny == Victim.y) continue;
+			if (nx == Attacker.x && ny == Attacker.y)
+				continue;
+			if (nx == Victim.x && ny == Victim.y)
+				continue;
 			map[nx][ny] -= power / 2;
 			attackRecord[nx][ny] = 1;
 		}
@@ -154,7 +165,8 @@ public class Main {
 				if (map[i][j] > 0 && attackRecord[i][j] == 0) {
 					map[i][j]++;
 				}
-				if(map[i][j] < 0) map[i][j] = 0;
+				if (map[i][j] < 0)
+					map[i][j] = 0;
 			}
 		}
 	}
