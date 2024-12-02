@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -10,8 +11,8 @@ import java.util.StringTokenizer;
 public class Main {
 	static int N, M, K, turn;
 	static boolean end;
-	static int[] dx = { 0, 1, -1, 0 };
-	static int[] dy = { 1, 0, 0, -1 };
+	static int[] dx = { 0, 1, 0, -1 };
+	static int[] dy = { 1, 0, -1, 0 };
 	static int[] hx = { -1, -1, 0, 1, 1, 1, 0, -1 };
 	static int[] hy = { 0, 1, 1, 1, 0, -1, -1, -1 };
 	static int[][] map, record, attackRecord;
@@ -89,11 +90,14 @@ public class Main {
 			return;
 		}
 		attackRecord = new int[N][M];
+		
 		Collections.sort(remain);
 		Attacker = remain.get(0);
 		Victim = remain.get(remain.size() - 1);
+		
 		map[Attacker.x][Attacker.y] += N + M;
 		record[Attacker.x][Attacker.y] = turn + 1;
+		attackRecord[Attacker.x][Attacker.y] = 1;
 	}
 
 	public static void laser() {
@@ -124,6 +128,7 @@ public class Main {
 			int sx = Victim.x;
 			int sy = Victim.y;
 			map[sx][sy] -= power;
+			attackRecord[sx][sy] = 1;
 
 			while (true) {
 				int nx = track[sx][sy].x;
@@ -143,6 +148,7 @@ public class Main {
 	public static void bomb() {
 		int power = map[Attacker.x][Attacker.y];
 		map[Victim.x][Victim.y] -= power;
+		attackRecord[Victim.x][Victim.y] = 1;
 		for (int i = 0; i < 8; i++) {
 			int nx = (Victim.x + hx[i] + N) % N;
 			int ny = (Victim.y + hy[i] + M) % M;
@@ -150,6 +156,7 @@ public class Main {
 				continue;
 			if (nx == Victim.x && ny == Victim.y)
 				continue;
+			if(map[nx][ny] <= 0) continue;
 			map[nx][ny] -= power / 2;
 			attackRecord[nx][ny] = 1;
 		}
@@ -158,15 +165,12 @@ public class Main {
 	public static void build() {
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				if (i == Attacker.x && j == Attacker.y)
-					continue;
-				if (i == Victim.x && j == Victim.y)
-					continue;
 				if (map[i][j] > 0 && attackRecord[i][j] == 0) {
 					map[i][j]++;
 				}
-				if (map[i][j] < 0)
+				if (map[i][j] < 0) {
 					map[i][j] = 0;
+				}
 			}
 		}
 	}
