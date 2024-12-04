@@ -86,10 +86,10 @@ public class Main {
 		boolean[][] visited = new boolean[N][N];
 
 		for (int i = 1; i <= M; i++) {
+			if(dead[i] == 1) continue;
 			Soldier s = soldiers[i];
 			for (int a = s.r; a < s.r + s.h; a++) {
 				for (int b = s.c; b < s.c + s.w; b++) {
-					if(dead[idx] == 1) continue;
 					sMap[a][b] = i;
 					if (i == idx) {
 						q.add(new Point(a, b));
