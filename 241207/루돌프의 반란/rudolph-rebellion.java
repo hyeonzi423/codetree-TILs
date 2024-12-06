@@ -10,6 +10,7 @@ public class Main {
 	static Santa[] santa;
 	static int[][] map;
 	static int[] score;
+	static boolean end;
 	static int[] rdx = { -1, -1, 0, 1, 1, 1, 0, -1 };
 	static int[] rdy = { 0, 1, 1, 1, 0, -1, -1, -1 };
 	static int[] dx = { -1, 0, 1, 0 };
@@ -36,6 +37,7 @@ public class Main {
 		P = Integer.parseInt(st.nextToken()); // 산타
 		C = Integer.parseInt(st.nextToken()); // 루돌프 힘
 		D = Integer.parseInt(st.nextToken()); // 산타 힘
+		end = false;
 
 		st = new StringTokenizer(br.readLine());
 		int x = Integer.parseInt(st.nextToken()) - 1;
@@ -56,10 +58,13 @@ public class Main {
 
 		for (turn = 0; turn < M; turn++) {
 			rodolfMove();
+			if(end) {
+				break;
+			}
 			santaMove();
 			awake();
 			for (int i = 1; i <= P; i++) {
-				if(santa[i].l == 1) {
+				if (santa[i].l == 1) {
 					score[i] += 1;
 				}
 			}
@@ -85,6 +90,10 @@ public class Main {
 				row = s.x;
 				col = s.y;
 			}
+		}
+		if (idx == -1) {
+			end = true;
+			return;
 		}
 
 		min = Integer.MAX_VALUE;
@@ -208,14 +217,13 @@ public class Main {
 		}
 	}
 
-
 	public static void awake() {
 		for (Santa s : santa) {
 			if (s == null || s.l == 0)
 				continue;
-			if(s.f == 2) {
+			if (s.f == 2) {
 				s.f = 0;
-			}else if(s.f == 1) {
+			} else if (s.f == 1) {
 				s.f += 1;
 			}
 		}
