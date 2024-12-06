@@ -6,7 +6,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 	static int N, M, P, C, D, turn;
-	static boolean end;
 	static Point rudolf;
 	static Santa[] santa;
 	static int[][] map;
@@ -26,6 +25,7 @@ public class Main {
 			this.l = l;
 			this.f = f;
 		}
+
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -36,7 +36,6 @@ public class Main {
 		P = Integer.parseInt(st.nextToken()); // 산타
 		C = Integer.parseInt(st.nextToken()); // 루돌프 힘
 		D = Integer.parseInt(st.nextToken()); // 산타 힘
-		end = true;
 
 		st = new StringTokenizer(br.readLine());
 		int x = Integer.parseInt(st.nextToken()) - 1;
@@ -88,11 +87,6 @@ public class Main {
 			}
 		}
 
-		if(idx == -1) {
-			end = true;
-			return ;
-		}
-		
 		min = Integer.MAX_VALUE;
 		int dir = -1;
 		Santa s = santa[idx];
@@ -142,6 +136,8 @@ public class Main {
 	public static void interaction(int x, int y, int dir, int dix, boolean flag) {
 		int pushedSanta = map[x][y];
 		map[x][y] = dix;
+		santa[dix].x = x;
+		santa[dix].y = y;
 		int nx = -1, ny = -1;
 		if (flag) {
 			nx = x + rdx[dir];
@@ -211,6 +207,7 @@ public class Main {
 			}
 		}
 	}
+
 
 	public static void awake() {
 		for (Santa s : santa) {
