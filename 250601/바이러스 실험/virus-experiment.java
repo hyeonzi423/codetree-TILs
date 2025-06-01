@@ -72,7 +72,7 @@ public class Main {
                     while (!map[i][j].isEmpty()) {
                         int now = map[i][j].poll();
 
-                        if (food[i][j] - now > 0) {
+                        if (food[i][j] >= now) {
                             food[i][j] -= now;
                             pq.add(now + 1);
                         } else {
