@@ -39,6 +39,9 @@ public class Main {
             grow();
             spread();
             int[] ret = choice();
+            if(ret == null){
+                break;
+            }
             ans += ret[0];
             medicine(ret[1], ret[2]);
             recover();
